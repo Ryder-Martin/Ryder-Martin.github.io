@@ -6,7 +6,7 @@
 let seed;
 let x = 0;
 let y = 0;
-let spacebar   = keyIsDown(35);
+let showFlag = false;
 
 function setup() {
   createCanvas(150, 150);
@@ -15,7 +15,7 @@ function setup() {
 
 function forview(){
   // I WILL STEAL THE MOON! (the spots are for the craters on the moon)
-  push()
+  push();
   function moon(){
     push();
     fill("lightgrey");
@@ -29,29 +29,29 @@ function forview(){
     circle(119,145,5);
     pop();
   }
-  function flag(){
-    //the flag that is on the moon
-    push();
-    noStroke();
-    fill(115, 133, 149);
-    rect(110,87,5,40);
-    fill("white");
-    rect(115,87,25,20);
-    // function flagMiddle(){
-    //   fill("orange");
-    //   circle(127,97,14);
-    //   fill(0);
-    //   rect(124,94,.3,3);
-    //   rect(130,94,.3,3);
-    //   fill("red");
-    //   arc(127,99,5,5, 0, 179.1,PIE);
-    // }
-    pop();
-    // flagMiddle();
-  }
   moon();
-  flag();
   pop();
+}
+
+function flag(){
+  //the flag that is on the moon
+  push();
+  noStroke();
+  fill(115, 133, 149);
+  rect(110,87,5,40);
+  fill("white");
+  rect(115,87,25,20);    
+  pop();
+}
+
+function flagMiddle(){
+  fill("orange");
+  circle(127,97,14);
+  fill(0);
+  rect(124,94,.3,3);
+  rect(130,94,.3,3);
+  fill("red");
+  arc(127,99,5,5, 0, 179.1,PIE);
 }
 
 function sun(){
@@ -66,11 +66,11 @@ function sun(){
 function stars(){
   //circular stars and has them go to a random place in the scene
   fill("white");
-  circle(random(4,145), random(4,145),5)
+  circle(random(4,145), random(4,145),5);
 }
 
 function alien(x,y){
-  push()
+  push();
   translate(x-100,y-100);
   // make a simple alien using simple shapes (this is from the past demo but it works well for my scene)
   noStroke();
@@ -96,18 +96,22 @@ function alien(x,y){
     fill(225,218,185);
     rect(80,125,3,10);
     rect(117,125,3,10);
+    rect(73,135,10,3);
+    rect(110,135,10,3);
   }
   function antenna(){
-    fill(225,218,185);
+    fill(212,175,55);
     circle(100,71,5);
+    fill(225,218,185);
     rect(99.5,73,1,7);
   }
   function leftArm(){
-    push()
+    push();
     fill(225,218,185);
     translate(76, 108);
     rotate(20);
     rect(0,0,3.5,15);
+    circle(2,15,7);
     pop();
   }
   function rightArm(){
@@ -116,6 +120,7 @@ function alien(x,y){
     translate(121,109);
     rotate(-20);
     rect(0,0,3.5,15);
+    circle(2,15,7);
     pop();
   }
   function goldTeeth(){
@@ -132,7 +137,7 @@ function alien(x,y){
   leftArm();
   rightArm();
   goldTeeth();
-  pop()
+  pop();
 }
 
 function alienMove(){
@@ -142,12 +147,11 @@ function alienMove(){
 }
 
 function keyPressed(){
-  if(keyCode === 35){
-    flagMiddleAlt().show();
-  } else{
-    flagMiddleAlt().hide();
+  if(key === ' '){
+    showFlag = !showFlag;
   }
 }
+
 
 function flagMiddleAlt(){
     fill("orange");
@@ -166,12 +170,17 @@ function draw() {
     stars();
   }
   forview();
+  flag();     
   sun();
-  keyPressed();
+  if(showFlag === true){
+    flagMiddleAlt();
+  }
+  if(showFlag === false){
+    flagMiddle();
+  }
   alienMove();
   fill(255);
   textSize(5);
   stroke(0);
   text('Ryder Martin', 120,147);
 }
-

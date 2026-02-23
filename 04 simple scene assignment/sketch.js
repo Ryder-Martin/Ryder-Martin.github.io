@@ -45,6 +45,7 @@ function flag(){
 }
 
 function flagMiddle(){
+  //this is what is shown for the middle of the flag icon
   fill("orange");
   circle(127,97,14);
   fill(0);
@@ -141,12 +142,14 @@ function alien(x,y){
 }
 
 function alienMove(){
+  // allows the alien to move
   x = mouseX;
   y = mouseY;
   alien(x,y);
 }
 
 function keyPressed(){
+  // changes if the flags face is happy or sad
   if(key === ' '){
     showFlag = !showFlag;
   }
@@ -154,6 +157,7 @@ function keyPressed(){
 
 
 function flagMiddleAlt(){
+  // this is the sad version of the middle of the flag
     fill("orange");
     circle(127,97,14);
     fill(0);

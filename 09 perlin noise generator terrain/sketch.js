@@ -23,6 +23,7 @@ function generateTerrain() {
 }
 
 function widthChanger(){
+  //using the left and right arrows have the rectWidth change
   if(keyIsPressed){
     if(keyCode===LEFT_ARROW){
       rectWidth -=0.1;
@@ -37,10 +38,15 @@ function widthChanger(){
   
 }
 
+function drawFlag(x,y){
+  line(x,y,x,y-20);
+  rect(x,y-20,7,7)
+}
 
 function draw() {
   noiseTime = 5;
   background(220);
   generateTerrain();
   widthChanger();
+  drawFlag(100,100);
 }

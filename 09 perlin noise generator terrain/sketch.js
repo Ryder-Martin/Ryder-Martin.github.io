@@ -40,7 +40,7 @@ function widthChanger(){
 
 function drawFlag(x,y){
   line(x,y,x,y-20);
-  rect(x,y-20,7,7)
+  rect(x,y-20,7,7);
 }
 
 function draw() {

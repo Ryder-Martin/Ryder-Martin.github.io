@@ -1,20 +1,26 @@
+//aras cars cars
+// RYder martin
+// 3/27/2026
+
+//global
 let eastbound = [];
 let westbound = [];
 let trafficLight;
 
 function setup() {
   createCanvas(800, 400);
-
+  // puts cars into road
   for (let i = 0; i < 20; i++) {
     addCarToArray(eastbound, 1);
     addCarToArray(westbound, 0);
   }
-
+  //traffic light
   trafficLight = new TrafficLight(width / 2, 70);
 }
 
 function draw() {
   background(100);
+  //draws the road
   drawRoad();
 
   trafficLight.display();
@@ -50,6 +56,7 @@ function mousePressed() {
 }
 
 function keyPressed() {
+  //this is for when space bar is pressed the traffic light will turn red
   if (key === ' ') {
     trafficLight.turnRed();
   }
@@ -64,6 +71,7 @@ function addCarToArray(arr, direction) {
 }
 
 class Vehicle {
+  //code for the cars
   constructor(type, c, x, y, direction, xSpeed) {
     this.type = type;
     this.c = c;
@@ -80,6 +88,7 @@ class Vehicle {
     noStroke();
 
     if (this.type === 0) {
+      //more code for the cars
       fill(this.c);
       rect(0, 0, 40, 18, 4);
       fill(255);
@@ -89,6 +98,7 @@ class Vehicle {
       ellipse(-12, 10, 10, 10);
       ellipse(12, 10, 10, 10);
     } else {
+      //even more code
       fill(this.c);
       rect(0, 0, 55, 22, 4);
       fill(red(this.c) * 0.8, green(this.c) * 0.8, blue(this.c) * 0.8);
@@ -103,6 +113,7 @@ class Vehicle {
   }
 
   move() {
+    //JESUS DOES THIS CODE EVER END
     this.x += this.xSpeed;
 
     if (this.x > width + 40) {
@@ -133,6 +144,7 @@ class Vehicle {
   }
 
   avoidCars(allCars) {
+    //code for the avoid
     let safeDist = 70;
     let closest = null;
     let closestDist = Infinity;
@@ -178,13 +190,14 @@ class Vehicle {
 }
 
 class TrafficLight {
+  //class code for the traffic light
   constructor(x, y) {
     this.x = x;
     this.y = y;
     this.isRed = false;
     this.timer = 0;
   }
-
+  //for it to turn red
   turnRed() {
     this.isRed = true;
     this.timer = 120;
@@ -199,7 +212,7 @@ class TrafficLight {
       }
     }
   }
-
+  //show the traffic light
   display() {
     push();
     rectMode(CENTER);

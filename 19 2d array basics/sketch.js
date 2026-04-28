@@ -99,8 +99,8 @@ function randomisedStart(){
     [0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0]
   ];
-  for(let x = 0; x < grid.length; x++){
-    for(let y = 0; y < grid[0].length; y++){
+  for(let x = 0; x < grid[0].length; x++){
+    for(let y = 0; y < grid.length; y++){
       let r = random(1,2);
       if(r <= 1.5){
         flip(x,y);

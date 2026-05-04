@@ -3,17 +3,19 @@
 //4/24/2026
 
 let image1; let image2; let image3; let image4;
+let myVideo;
 
 
-function preload(){
-  image1 = loadImage("assets/chip.jpg");
-  image2 = loadImage("assets/race.jpg");
-  image3 = loadImage("assets/nuit.jpg");
-  image4 = loadImage("assets/hand.jpg");
-}
+// function preload(){
+//   image1 = loadImage("assets/chip.jpg");
+//   image2 = loadImage("assets/race.jpg");
+//   image3 = loadImage("assets/nuit.visuajpg");
+//   image4 = loadImage("assets/hand.jpg");
+// }
 
 function setup() {
-  createCanvas(image1.width, image1.height);
+  createCanvas(640,480);
+  myVideo = createCapture(VIDEO);
 
 }
 
@@ -23,7 +25,8 @@ function draw() {
   // image(image1,0,0);
   // image(image2,0,0);
   // image(image3,0,0)
-  image(image4,0,0)
+  // image(image4,0,0)
+  image(myVideo,0,0);
   loadPixels();
   // majColor();
   // goAwayGreen();
@@ -117,8 +120,4 @@ function mirror(){
       }
     }
   }
-}
-
-function getColor(){
-
 }

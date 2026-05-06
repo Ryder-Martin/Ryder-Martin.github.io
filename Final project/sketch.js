@@ -2,23 +2,30 @@
 // Ryder Martin
 // 4/29/2026
 
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
 let maxwellImage;
 let maxwellGif;
+let catHere = true;
+let catGif = false;
+let catSound;
 
 function preload(){
-  maxwellImage = loadImage('assets/maxwell1.png')
-  maxwellGif = loadImage('assets/maxwell.gif')
+  maxwellImage = loadImage('assets/maxwell1.png');
+  maxwellGif = loadImage('assets/maxwell.gif');
+  catSound = loadSound('assets/Maxwell_oiia.mp3');
 }
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
-  maxwellGif.delay(5);
+  createCanvas(400, 400);
+  maxwellGif.delay(1);
 }
 
 function draw() {
   background(220);
-  image(maxwellGif,0,0);
-  // image(maxwellImage,0,0);
+  // image(maxwellGif,0,0);
+  if(catHere)image(maxwellImage,100,100);
+  if(catGif)image(maxwellGif,100,100);
 }
 
 function playGif(){
@@ -29,8 +36,11 @@ function stopGif(){
 
 }
 
-function mousePressed(){
-  if(mouseX && mouseY === maxwellImage + mousePressed){
-    image(maxwellGif,0,0);
-  }
+async function mousePressed(){
+  catHere = !catHere;  
+  catGif = true;
+
+  await sleep(2000);
+  catGif = false;
+  catHere = true;
 }

@@ -12,13 +12,13 @@ function preload(){
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  maxwellGif.delay(0.1);
+  maxwellGif.delay(5);
 }
 
 function draw() {
   background(220);
-  // image(maxwellGif,0,0);
-  image(maxwellImage,0,0);
+  image(maxwellGif,0,0);
+  // image(maxwellImage,0,0);
 }
 
 function playGif(){

@@ -4,43 +4,58 @@
 
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
+let backGround;
 let maxwellImage;
 let maxwellGif;
 let catHere = true;
 let catGif = false;
 let catSound;
+let count = 0;
 
 function preload(){
   maxwellImage = loadImage('assets/maxwell1.png');
   maxwellGif = loadImage('assets/maxwell.gif');
   catSound = loadSound('assets/Maxwell_oiia.mp3');
+  backGround = loadImage('assets/Lofibackground.png');
 }
 
 function setup() {
-  createCanvas(400, 400);
+  createCanvas(600, 800);
   maxwellGif.delay(1);
 }
 
 function draw() {
+  //background and all other functions here
   background(220);
-  // image(maxwellGif,0,0);
-  if(catHere)image(maxwellImage,100,100);
-  if(catGif)image(maxwellGif,100,100);
+  // image(backGround,0,0,600,800);
+  // if(catHere)image(maxwellImage,50,300);
+  // if(catGif)image(maxwellGif,50,300);
+  // counterText();
+  store();
 }
 
-function playGif(){
-  
+function counterText(){
+  //the text for the counter/spins/currency
+  textSize(32);
+  fill('#C09642');
+  text("Spins: " + count, 30,100)
 }
 
-function stopGif(){
+// async function mousePressed(){
+//   //when mouse is clicked hide image, play gif, add 1 to counter/currency and play the oiia audio.
+//   count++
+//   catHere = !catHere;  
+//   catGif = true;
+//   catSound.play();
+//   await sleep(1450);
+//   catGif = false;
+//   catHere = true;
+// }
 
-}
-
-async function mousePressed(){
-  catHere = !catHere;  
-  catGif = true;
-
-  await sleep(2000);
-  catGif = false;
-  catHere = true;
+function store(){
+  rect(475,700,100,50);
+  text('STORE',)
+  // catHere = false;
+  // catGif = false;
+  // backGround = false;
 }

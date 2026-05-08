@@ -4,6 +4,7 @@
 
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
+let shopOpen = false;
 let backGround;
 let maxwellImage;
 let maxwellGif;
@@ -27,10 +28,10 @@ function setup() {
 function draw() {
   //background and all other functions here
   background(220);
-  // image(backGround,0,0,600,800);
-  // if(catHere)image(maxwellImage,50,300);
-  // if(catGif)image(maxwellGif,50,300);
-  // counterText();
+  image(backGround,0,0,600,800);
+  if(catHere)image(maxwellImage,50,300);
+  if(catGif)image(maxwellGif,50,300);
+  counterText();
   store();
 }
 
@@ -41,21 +42,25 @@ function counterText(){
   text("Spins: " + count, 30,100)
 }
 
-// async function mousePressed(){
-//   //when mouse is clicked hide image, play gif, add 1 to counter/currency and play the oiia audio.
-//   count++
-//   catHere = !catHere;  
-//   catGif = true;
-//   catSound.play();
-//   await sleep(1450);
-//   catGif = false;
-//   catHere = true;
-// }
-
-function store(){
-  rect(475,700,100,50);
-  text('STORE',)
-  // catHere = false;
-  // catGif = false;
-  // backGround = false;
+async function mousePressed(){
+  //when mouse is clicked hide image, play gif, add 1 to counter/currency and play the oiia audio.
+  if(mouseX > maxwellImage && mouseX < maxwellImage && mouseY > maxwellImage && mouseY < maxwellImage){
+    count++
+    catHere = !catHere;  
+    catGif = true;
+    catSound.play();
+    await sleep(1450);
+    catGif = false;
+    catHere = true;
+  }
+  
 }
+
+// function store(){
+//   rect(475,700,100,50);
+//   text('STORE',505,730)
+//   if(mouseX && mouseY )
+//   // catHere = false;
+//   // catGif = false;
+//   // backGround = false;
+// }

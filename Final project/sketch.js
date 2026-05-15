@@ -7,6 +7,7 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 let mexCatImg;
 let mexCatGif;
 let shopOpen = false;
+let shelf;
 let backGround;
 let maxwellImage;
 let maxwellGif;
@@ -25,6 +26,7 @@ function preload() {
   mexCatImg = loadImage('assets/MexMaxImg.png');
   mexCatGif = loadImage('assets/MexMaxGif.gif');
   storeCounter = loadImage('assets/StoreCounter.png');
+  shelf = loadImage('assets/shelf.png');
 }
 
 function setup() {
@@ -54,6 +56,10 @@ function draw() {
     background("white");
     image(storeCounter, 0, 400, 300, 400);
     exitShop();
+    image(shelf,0,200,300,150)
+    image(shelf,300,200,300,150)
+    image(shelf,300,400,300,150)
+    multiButtons();
   }
   counterText();
 }
@@ -85,7 +91,7 @@ async function mousePressed() {
   //if i click the shop button it will then play the store function which will
   //swtich the gamestate into shop mode which will let your buy multipliers
   if (mouseX >= 475 && mouseX <= 575 && mouseY >= 700 && mouseY <= 733) {
-    store();
+    gameState = 'Store'
   }
   // if the red circle with the x in it is clicked then go back to the game
   if (gameState === 'Store') {
@@ -121,9 +127,18 @@ function exitShop() {
   pop();
 }
 
-function store() {
-  //this is the function that will switch the game state into shop mode
+function multipliers() {
   //this will allow you to buy multipliers and maybe backgrounds if i get to it
   //and will also have the exit shop button pop up.
-  gameState = 'Store'
+  
+}
+
+function multiButtons(){
+  push()
+  fill("lightgrey");
+  rect(50,170,100,100);
+  fill("black");
+  textSize(50);
+  text('2X',69,240)
+  pop()
 }

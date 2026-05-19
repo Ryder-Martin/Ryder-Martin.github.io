@@ -17,6 +17,13 @@ let catSound;
 let count = 0;
 let storeCounter;
 let gameState = 'Game';
+let twoTimesMulti = false;
+let clickValue = 1;
+let fourTimesMulti = false;
+let activeMulti = false;
+let lock;
+let isLocked4 = true;
+
 
 function preload() {
   maxwellImage = loadImage('assets/maxwell1.png');
@@ -27,6 +34,7 @@ function preload() {
   mexCatGif = loadImage('assets/MexMaxGif.gif');
   storeCounter = loadImage('assets/StoreCounter.png');
   shelf = loadImage('assets/shelf.png');
+  lock = loadImage('assets/lock.png');
 }
 
 function setup() {
@@ -51,15 +59,19 @@ function draw() {
       cursor(HAND);
     }
     else cursor(ARROW);
+    print(clickValue);
   }
+  //gamestate store
   else if (gameState === "Store") {
     background("white");
     image(storeCounter, 0, 400, 300, 400);
     exitShop();
-    image(shelf,0,200,300,150)
-    image(shelf,300,200,300,150)
-    image(shelf,300,400,300,150)
+    image(shelf, 0, 200, 300, 150)
+    image(shelf, 300, 200, 300, 150)
+    image(shelf, 300, 400, 300, 150)
+    // image(lock,153,170,253,270)
     multiButtons();
+    multipliers();
   }
   counterText();
 }
@@ -78,7 +90,7 @@ async function mousePressed() {
   //currency of this game
   if (gameState === 'Game') {
     if (mouseX >= 50 && mouseX <= 210 && mouseY >= 300 && mouseY <= 420) {
-      count++
+      score();
       catHere = !catHere;
       catGif = true;
       catSound.play();
@@ -99,6 +111,19 @@ async function mousePressed() {
       gameState = 'Game'
     }
   }
+
+  if (mouseX >= 43 && mouseX <= 145 && mouseY >= 170 && mouseY <= 270) {
+    twoTimesMulti = true;
+    activeMulti = true;
+    isLocked4 = false;
+  }
+  if(isLocked4 === false){
+     if (mouseX >= 153 && mouseX <= 253 && mouseY >= 170 && mouseY <= 270) {
+    fourTimesMulti = true;
+    activeMulti = true;
+    }
+  }
+ 
 }
 
 function shopbutton() {
@@ -129,16 +154,46 @@ function exitShop() {
 
 function multipliers() {
   //this will allow you to buy multipliers and maybe backgrounds if i get to it
-  //and will also have the exit shop button pop up.
-  
+
+  if (mouseX >= 43 && mouseX <= 145 && mouseY >= 170 && mouseY <= 270) {
+    cursor(HAND);
+  }
+  else cursor(ARROW);
+
+  if (mouseX >= 153 && mouseX <= 253 && mouseY >= 170 && mouseY <= 270) {
+    cursor(HAND);
+  }
+  else cursor(ARROW);
 }
 
-function multiButtons(){
+function multiButtons() {
   push()
   fill("lightgrey");
-  rect(50,170,100,100);
+  rect(45, 170, 100, 100);
   fill("black");
   textSize(50);
-  text('2X',69,240)
+  text('2X', 64, 240)
   pop()
+
+  push()
+  fill("lightgrey");
+  rect(155, 170, 100, 100);
+  fill("black");
+  textSize(50);
+  text('4X', 173, 240)
+  pop()
+}
+
+function score() {
+  if(activeMulti === false){
+    count++
+  }
+
+  if (twoTimesMulti === true) {
+    count = count + clickValue * 2
+  }
+
+  if(fourTimesMulti === true){
+    count = count + clickValue * 4
+  }
 }

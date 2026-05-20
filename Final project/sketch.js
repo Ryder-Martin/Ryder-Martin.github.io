@@ -1,28 +1,39 @@
 // Final project, Maxwell the cat clicker game
 // Ryder Martin
-// 4/29/2026
+// 4/29/2026 - 
 
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
+//Cat images
 let mexCatImg;
 let mexCatGif;
-let shopOpen = false;
-let shelf;
-let backGround;
 let maxwellImage;
 let maxwellGif;
+
+//store images
+let shelf;
+let storeCounter;
+let lock;
+
+//gamestate 'game' global var
+let backGround;
 let catHere = true;
 let catGif = false;
 let catSound;
 let count = 0;
-let storeCounter;
 let gameState = 'Game';
+
+//gamestate 'store' global var
 let twoTimesMulti = false;
-let clickValue = 1;
 let fourTimesMulti = false;
+let sixTimesMulti = false;
+let eightTimesMulti = false;
+let clickValue = 1;
 let activeMulti = false;
-let lock;
 let isLocked4 = true;
+let isLocked6 = true;
+let isLocked8 = true;
+let isLocked2 = false;
 
 
 function preload() {
@@ -59,7 +70,6 @@ function draw() {
       cursor(HAND);
     }
     else cursor(ARROW);
-    print(clickValue);
   }
   //gamestate store
   else if (gameState === "Store") {
@@ -71,7 +81,15 @@ function draw() {
     image(shelf, 300, 400, 300, 150)
     // image(lock,153,170,253,270)
     multiButtons();
-    multipliers();
+    if (mouseX >= 43 && mouseX <= 145 && mouseY >= 170 && mouseY <= 270) {
+      cursor(HAND);
+    }
+    else cursor(ARROW);
+
+    if (mouseX >= 153 && mouseX <= 253 && mouseY >= 170 && mouseY <= 270) {
+      cursor(HAND);
+    }
+    else cursor(ARROW);
   }
   counterText();
 }
@@ -111,19 +129,42 @@ async function mousePressed() {
       gameState = 'Game'
     }
   }
-
-  if (mouseX >= 43 && mouseX <= 145 && mouseY >= 170 && mouseY <= 270) {
-    twoTimesMulti = true;
-    activeMulti = true;
-    isLocked4 = false;
-  }
-  if(isLocked4 === false){
-     if (mouseX >= 153 && mouseX <= 253 && mouseY >= 170 && mouseY <= 270) {
-    fourTimesMulti = true;
-    activeMulti = true;
+  if(isLocked2 === false){
+      if (mouseX >= 43 && mouseX <= 145 && mouseY >= 170 && mouseY <= 270 && count >= 100) {
+        count -= 100;
+        twoTimesMulti = true;
+        activeMulti = true;
+        isLocked4 = false;
     }
   }
- 
+
+
+  if (isLocked4 === false) {
+    if (mouseX >= 153 && mouseX <= 253 && mouseY >= 170 && mouseY <= 270 && count >= 1000) {
+      count -= 1000;
+      fourTimesMulti = true;
+      isLocked6 = false;
+      isLocked2 = true;
+    }
+  }
+
+  if (isLocked6 === false) {
+    if (mouseX >= 346 && mouseX <= 446 && mouseY >= 170 && mouseY <= 270 && count >= 5000) {
+      count -= 5000;
+      sixTimesMulti = true;
+      isLocked8 = false;
+      isLocked4 = true;
+    }
+  }
+
+  if (isLocked8 === false) {
+    if (mouseX >= 455 && mouseX <= 555 && mouseY >= 170 && mouseY <= 270 && count >= 10000) {
+      count -= 10000;
+      eightTimesMulti = true;
+      isLocked6 = true;
+      isLocked8 = true;
+    }
+  }
 }
 
 function shopbutton() {
@@ -152,48 +193,89 @@ function exitShop() {
   pop();
 }
 
-function multipliers() {
-  //this will allow you to buy multipliers and maybe backgrounds if i get to it
-
-  if (mouseX >= 43 && mouseX <= 145 && mouseY >= 170 && mouseY <= 270) {
-    cursor(HAND);
-  }
-  else cursor(ARROW);
-
-  if (mouseX >= 153 && mouseX <= 253 && mouseY >= 170 && mouseY <= 270) {
-    cursor(HAND);
-  }
-  else cursor(ARROW);
-}
-
 function multiButtons() {
+  //2x multiplier shop button
   push()
   fill("lightgrey");
   rect(45, 170, 100, 100);
   fill("black");
   textSize(50);
   text('2X', 64, 240)
+  textSize(13);
+  fill("green");
+  text('cost = 100 spins', 45, 300);
+  if(isLocked2 === true){
+    image(lock, 55, 170, 100, 100)
+  }
   pop()
 
+  //4x multiplier shop button
   push()
   fill("lightgrey");
   rect(155, 170, 100, 100);
   fill("black");
   textSize(50);
   text('4X', 173, 240)
+  textSize(13);
+  fill("green");
+  text('cost = 1000 spins', 155, 300);
+  if (isLocked4 === true) {
+    image(lock, 155, 170, 100, 100)
+  }
+  pop()
+
+  //6x multiplier shop button
+  push()
+  fill("lightgrey");
+  rect(346, 170, 100, 100);
+  fill("black");
+  textSize(50);
+  text('6X', 366, 240)
+  textSize(13);
+  fill("green");
+  text('cost = 5000 spins', 346, 300);
+  if (isLocked6 === true) {
+    image(lock, 346, 170, 100, 100)
+  }
+  pop()
+
+  //8x multiplier shop button
+  push()
+  fill("lightgrey");
+  rect(455, 170, 100, 100);
+  fill("black");
+  textSize(50);
+  text('8X', 474, 240)
+  textSize(13);
+  fill("green");
+  text('cost = 50000 spins', 455, 300);
+  if (isLocked8 === true) {
+    image(lock, 455, 170, 100, 100)
+  }
   pop()
 }
 
 function score() {
-  if(activeMulti === false){
+  if (activeMulti === false) {
     count++
   }
 
   if (twoTimesMulti === true) {
-    count = count + clickValue * 2
+    count = count + clickValue * 2;
   }
 
-  if(fourTimesMulti === true){
-    count = count + clickValue * 4
+  if (fourTimesMulti === true) {
+    twoTimesMulti = false;
+    count = clickValue * 2 * 4 + count;
+  }
+
+  if (sixTimesMulti === true) {
+    fourTimesMulti = false;
+    count = clickValue * 2 * 4 * 6 + count;
+  }
+
+  if (eightTimesMulti === true) {
+    sixTimesMulti = false;
+    count = clickValue * 2 * 4 * 6 * 8 + count;
   }
 }

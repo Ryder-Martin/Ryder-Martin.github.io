@@ -10,6 +10,9 @@ let mexCatGif;
 let maxwellImage;
 let maxwellGif;
 
+//scott images
+let scott;
+
 //store images
 let shelf;
 let storeCounter;
@@ -46,6 +49,7 @@ function preload() {
   storeCounter = loadImage('assets/StoreCounter.png');
   shelf = loadImage('assets/shelf.png');
   lock = loadImage('assets/lock.png');
+  scott = loadImage('assets/scott .png');
 }
 
 function setup() {
@@ -69,8 +73,15 @@ function draw() {
     else if (mouseX >= 475 && mouseX <= 575 && mouseY >= 700 && mouseY <= 733) {
       cursor(HAND);
     }
+    else if(mouseX >= 428 && mouseX <= 800 && mouseY >= 170 && mouseY <= 270){
+      cursor(HAND);
+    }
     else cursor(ARROW);
+    // image(scott, 428,280,170,100);
   }
+
+
+
   //gamestate store
   else if (gameState === "Store") {
     background("white");
@@ -81,16 +92,27 @@ function draw() {
     image(shelf, 300, 400, 300, 150)
     // image(lock,153,170,253,270)
     multiButtons();
-    if (mouseX >= 43 && mouseX <= 145 && mouseY >= 170 && mouseY <= 270) {
+    if (mouseX >= 346 && mouseX <= 446 && mouseY >= 170 && mouseY <= 270) {
+      cursor(HAND);
+    }
+    else if (mouseX >= 45 && mouseX <= 145 && mouseY >= 170 && mouseY <= 270) {
+      cursor(HAND);
+    }
+    else if (mouseX >= 155 && mouseX <= 255 && mouseY >= 170 && mouseY <= 270) {
+      cursor(HAND);
+    }
+    else if (mouseX >= 455 && mouseX <= 555 && mouseY >= 170 && mouseY <= 270) {
+      cursor(HAND);
+    }
+    else if (mouseX >= 540 && mouseX <= 595 && mouseY >= 20 && mouseY <= 75) {
       cursor(HAND);
     }
     else cursor(ARROW);
 
-    if (mouseX >= 153 && mouseX <= 253 && mouseY >= 170 && mouseY <= 270) {
-      cursor(HAND);
-    }
-    else cursor(ARROW);
   }
+
+
+
   counterText();
 }
 
@@ -129,12 +151,14 @@ async function mousePressed() {
       gameState = 'Game'
     }
   }
-  if(isLocked2 === false){
-      if (mouseX >= 43 && mouseX <= 145 && mouseY >= 170 && mouseY <= 270 && count >= 100) {
-        count -= 100;
-        twoTimesMulti = true;
-        activeMulti = true;
-        isLocked4 = false;
+
+  //shop multiplier buttons.
+  if (isLocked2 === false) {
+    if (mouseX >= 43 && mouseX <= 145 && mouseY >= 170 && mouseY <= 270 && count >= 100) {
+      count -= 100;
+      twoTimesMulti = true;
+      activeMulti = true;
+      isLocked4 = false;
     }
   }
 
@@ -158,8 +182,8 @@ async function mousePressed() {
   }
 
   if (isLocked8 === false) {
-    if (mouseX >= 455 && mouseX <= 555 && mouseY >= 170 && mouseY <= 270 && count >= 10000) {
-      count -= 10000;
+    if (mouseX >= 455 && mouseX <= 555 && mouseY >= 170 && mouseY <= 270 && count >= 50000) {
+      count -= 50000;
       eightTimesMulti = true;
       isLocked6 = true;
       isLocked8 = true;
@@ -186,10 +210,6 @@ function exitShop() {
   fill("black")
   textSize(45);
   text('X', 555.5, 65);
-  if (mouseX >= 540 && mouseX <= 595 && mouseY >= 20 && mouseY <= 75) {
-    cursor(HAND);
-  }
-  else cursor(ARROW);
   pop();
 }
 
@@ -204,7 +224,7 @@ function multiButtons() {
   textSize(13);
   fill("green");
   text('cost = 100 spins', 45, 300);
-  if(isLocked2 === true){
+  if (isLocked2 === true) {
     image(lock, 55, 170, 100, 100)
   }
   pop()
@@ -222,6 +242,7 @@ function multiButtons() {
   if (isLocked4 === true) {
     image(lock, 155, 170, 100, 100)
   }
+
   pop()
 
   //6x multiplier shop button
@@ -256,6 +277,7 @@ function multiButtons() {
 }
 
 function score() {
+  //score count and multiplier counts
   if (activeMulti === false) {
     count++
   }

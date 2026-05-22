@@ -4,6 +4,13 @@
 
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
+//settings var
+let bgOneLocked = true;
+
+//more backgrounds and settings icon
+let extraBg;
+let settingsIcon;
+
 //Cat images
 let mexCatImg;
 let mexCatGif;
@@ -50,6 +57,8 @@ function preload() {
   shelf = loadImage('assets/shelf.png');
   lock = loadImage('assets/lock.png');
   scott = loadImage('assets/scott .png');
+  extraBg = loadImage('assets/space.jpg');
+  settingsIcon = loadImage('assets/settingsGear.png');
 }
 
 function setup() {
@@ -61,9 +70,27 @@ function setup() {
 function draw() {
   //background and all other functions here
   if (gameState === 'Game') {
-    //if the gamestate is set to game, do these: CATSPIN when cliced on, 
+    //if the gamestate is set to game, do these: CATSPIN when clicekd on cat, 
     // click on "STORE" button then go to the shop
     image(backGround, 0, 0, 600, 800);
+    image(settingsIcon, 0, 750, 50, 50)
+    if (catHere) image(maxwellImage, 50, 300);
+    if (catGif) image(maxwellGif, 50, 300);
+    shopbutton();
+    if (mouseX >= 50 && mouseX <= 210 && mouseY >= 300 && mouseY <= 420) {
+      cursor(HAND);
+    }
+    else if (mouseX >= 500 && mouseX <= 600 && mouseY >= 750 && mouseY <= 800) {
+      cursor(HAND);
+    }
+    else cursor(ARROW);
+  }
+
+
+  //gamestate space
+  else if (gameState === 'space') {
+    //if the gamestate is set to space background, do these: CATSPIN when clicked on cat, 
+    image(extraBg, 0, 0, 600, 800);
     if (catHere) image(maxwellImage, 50, 300);
     if (catGif) image(maxwellGif, 50, 300);
     shopbutton();
@@ -73,14 +100,11 @@ function draw() {
     else if (mouseX >= 475 && mouseX <= 575 && mouseY >= 700 && mouseY <= 733) {
       cursor(HAND);
     }
-    else if(mouseX >= 428 && mouseX <= 800 && mouseY >= 170 && mouseY <= 270){
+    else if (mouseX >= 428 && mouseX <= 800 && mouseY >= 170 && mouseY <= 270) {
       cursor(HAND);
     }
     else cursor(ARROW);
-    // image(scott, 428,280,170,100);
   }
-
-
 
   //gamestate store
   else if (gameState === "Store") {
@@ -90,6 +114,7 @@ function draw() {
     image(shelf, 0, 200, 300, 150)
     image(shelf, 300, 200, 300, 150)
     image(shelf, 300, 400, 300, 150)
+    image(extraBg, 350, 370, 100, 100);
     // image(lock,153,170,253,270)
     multiButtons();
     if (mouseX >= 346 && mouseX <= 446 && mouseY >= 170 && mouseY <= 270) {
@@ -104,15 +129,39 @@ function draw() {
     else if (mouseX >= 455 && mouseX <= 555 && mouseY >= 170 && mouseY <= 270) {
       cursor(HAND);
     }
-    else if (mouseX >= 540 && mouseX <= 595 && mouseY >= 20 && mouseY <= 75) {
+    else if (mouseX >= 540 && mouseX <= 595 && mouseY >= 0 && mouseY <= 50) {
+      cursor(HAND);
+    }
+    else if (mouseX >= 350 && mouseX <= 450 && mouseY >= 370 && mouseY <= 470) {
+      cursor(HAND);
+    }
+    else cursor(ARROW);
+    moreBackgrounds();
+  }
+
+  else if (gameState === 'Settings') {
+    background('darkgrey')
+    exitShop()
+    if(mouseX >= 540 && mouseX <= 595 && mouseY >= 0 && mouseY <= 50){
       cursor(HAND);
     }
     else cursor(ARROW);
 
+    push();
+    textSize(50);
+    fill("Black");
+    text('SETTINGS',160,100);
+    pop();
+
+    push()
+    textSize(30);
+    fill("BLACK");
+    text('Backgrounds',25,200);
+    pop()
+
+    image(extraBg, 25, 230, 100, 100);
   }
-
-
-
+  
   counterText();
 }
 
@@ -120,7 +169,7 @@ function counterText() {
   //the text for the counter/spins/currency
   textSize(32);
   fill('#C09642');
-  text("Spins: " + count, 30, 100)
+  text("Spins: " + count, 22,32)
 }
 
 async function mousePressed() {
@@ -128,7 +177,7 @@ async function mousePressed() {
 
   //if the gamestate is in game mode then it will let me click the cat and earn spins which is the 
   //currency of this game
-  if (gameState === 'Game') {
+  if (gameState === 'Game' || gameState === 'space') {
     if (mouseX >= 50 && mouseX <= 210 && mouseY >= 300 && mouseY <= 420) {
       score();
       catHere = !catHere;
@@ -140,14 +189,18 @@ async function mousePressed() {
     }
   }
 
+  if (mouseX >= 0 && mouseX <= 50 && mouseY >= 750 && mouseY <= 800) {
+    gameState = 'Settings'
+  }
+
   //if i click the shop button it will then play the store function which will
   //swtich the gamestate into shop mode which will let your buy multipliers
-  if (mouseX >= 475 && mouseX <= 575 && mouseY >= 700 && mouseY <= 733) {
+  if (mouseX >= 500 && mouseX <= 600 && mouseY >= 750 && mouseY <= 800) {
     gameState = 'Store'
   }
   // if the red circle with the x in it is clicked then go back to the game
-  if (gameState === 'Store') {
-    if (mouseX >= 540 && mouseX <= 595 && mouseY >= 20 && mouseY <= 75) {
+  if (gameState === 'Store' || gameState === 'Settings') {
+    if (mouseX >= 540 && mouseX <= 595 && mouseY >= 0 && mouseY <= 50) {
       gameState = 'Game'
     }
   }
@@ -189,16 +242,20 @@ async function mousePressed() {
       isLocked8 = true;
     }
   }
+
+  // if (mouseX >= 350 && mouseX <= 450 && mouseY >= 370 && mouseY <= 470 && count >= 2500) {
+
+  // }
 }
 
 function shopbutton() {
   //this is the code for the shop button
   push();
   fill("White");
-  rect(475, 700, 100, 50);
+  rect(500, 750, 100, 50);
   textSize(25);
   fill("black")
-  text('STORE', 483, 733)
+  text('STORE', 508, 783)
   pop();
 }
 
@@ -206,10 +263,10 @@ function exitShop() {
   //this is the code for the exit shop button
   push();
   fill("red")
-  circle(570, 50, 50)
+  circle(570, 25, 50)
   fill("black")
   textSize(45);
-  text('X', 555.5, 65);
+  text('X', 555.5, 40);
   pop();
 }
 
@@ -300,4 +357,12 @@ function score() {
     sixTimesMulti = false;
     count = clickValue * 2 * 4 * 6 * 8 + count;
   }
+}
+
+function moreBackgrounds() {
+  push();
+  fill('green');
+  textSize(13);
+  text('cost = 2500 spins', 350, 500)
+  pop();
 }

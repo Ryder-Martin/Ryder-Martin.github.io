@@ -91,16 +91,14 @@ function draw() {
   else if (gameState === 'space') {
     //if the gamestate is set to space background, do these: CATSPIN when clicked on cat, 
     image(extraBg, 0, 0, 600, 800);
+    image(settingsIcon, 0, 750, 50, 50)
     if (catHere) image(maxwellImage, 50, 300);
     if (catGif) image(maxwellGif, 50, 300);
     shopbutton();
     if (mouseX >= 50 && mouseX <= 210 && mouseY >= 300 && mouseY <= 420) {
       cursor(HAND);
     }
-    else if (mouseX >= 475 && mouseX <= 575 && mouseY >= 700 && mouseY <= 733) {
-      cursor(HAND);
-    }
-    else if (mouseX >= 428 && mouseX <= 800 && mouseY >= 170 && mouseY <= 270) {
+    else if (mouseX >= 500 && mouseX <= 600 && mouseY >= 750 && mouseY <= 800) {
       cursor(HAND);
     }
     else cursor(ARROW);
@@ -142,26 +140,36 @@ function draw() {
   else if (gameState === 'Settings') {
     background('darkgrey')
     exitShop()
-    if(mouseX >= 540 && mouseX <= 595 && mouseY >= 0 && mouseY <= 50){
+    if (mouseX >= 540 && mouseX <= 595 && mouseY >= 0 && mouseY <= 50) {
       cursor(HAND);
+    }
+    else if(mouseX >= 130 && mouseX <= 230 && mouseY >= 230 && mouseY <= 430){
+      cursor(HAND);
+    }
+    else if(mouseX >= 25 && mouseX <= 125 && mouseY >= 230 && mouseY <= 430){
+      cursor(HAND)
     }
     else cursor(ARROW);
 
     push();
     textSize(50);
     fill("Black");
-    text('SETTINGS',160,100);
+    text('SETTINGS', 160, 100);
     pop();
 
     push()
     textSize(30);
     fill("BLACK");
-    text('Backgrounds',25,200);
+    text('Backgrounds', 25, 200);
     pop()
 
-    image(extraBg, 25, 230, 100, 100);
+    image(extraBg, 130, 230, 100, 100);
+    image(backGround, 20, 230, 100, 100);
+    if (bgOneLocked === true) {
+      image(lock, 130, 230, 100, 100)
+    }
   }
-  
+
   counterText();
 }
 
@@ -169,7 +177,7 @@ function counterText() {
   //the text for the counter/spins/currency
   textSize(32);
   fill('#C09642');
-  text("Spins: " + count, 22,32)
+  text("Spins: " + count, 22, 32)
 }
 
 async function mousePressed() {
@@ -206,46 +214,71 @@ async function mousePressed() {
   }
 
   //shop multiplier buttons.
-  if (isLocked2 === false) {
-    if (mouseX >= 43 && mouseX <= 145 && mouseY >= 170 && mouseY <= 270 && count >= 100) {
-      count -= 100;
-      twoTimesMulti = true;
-      activeMulti = true;
-      isLocked4 = false;
+  if (gameState === 'Store') {
+    if (isLocked2 === false) {
+      if (mouseX >= 43 && mouseX <= 145 && mouseY >= 170 && mouseY <= 270 && count >= 100) {
+        count -= 100;
+        twoTimesMulti = true;
+        activeMulti = true;
+        isLocked4 = false;
+      }
     }
   }
 
 
-  if (isLocked4 === false) {
-    if (mouseX >= 153 && mouseX <= 253 && mouseY >= 170 && mouseY <= 270 && count >= 1000) {
-      count -= 1000;
-      fourTimesMulti = true;
-      isLocked6 = false;
-      isLocked2 = true;
+  if (gameState === 'Store') {
+    if (isLocked4 === false) {
+      if (mouseX >= 153 && mouseX <= 253 && mouseY >= 170 && mouseY <= 270 && count >= 1000) {
+        count -= 1000;
+        fourTimesMulti = true;
+        isLocked6 = false;
+        isLocked2 = true;
+      }
     }
   }
 
-  if (isLocked6 === false) {
-    if (mouseX >= 346 && mouseX <= 446 && mouseY >= 170 && mouseY <= 270 && count >= 5000) {
-      count -= 5000;
-      sixTimesMulti = true;
-      isLocked8 = false;
-      isLocked4 = true;
+  if (gameState === 'Store') {
+    if (isLocked6 === false) {
+      if (mouseX >= 346 && mouseX <= 446 && mouseY >= 170 && mouseY <= 270 && count >= 5000) {
+        count -= 5000;
+        sixTimesMulti = true;
+        isLocked8 = false;
+        isLocked4 = true;
+      }
     }
   }
 
-  if (isLocked8 === false) {
-    if (mouseX >= 455 && mouseX <= 555 && mouseY >= 170 && mouseY <= 270 && count >= 50000) {
-      count -= 50000;
-      eightTimesMulti = true;
-      isLocked6 = true;
-      isLocked8 = true;
+  if (gameState === 'Store') {
+    if (isLocked8 === false) {
+      if (mouseX >= 455 && mouseX <= 555 && mouseY >= 170 && mouseY <= 270 && count >= 50000) {
+        count -= 50000;
+        eightTimesMulti = true;
+        isLocked6 = true;
+        isLocked8 = true;
+      }
     }
   }
 
-  // if (mouseX >= 350 && mouseX <= 450 && mouseY >= 370 && mouseY <= 470 && count >= 2500) {
+  if (gameState === 'Store') {
+    if (mouseX >= 350 && mouseX <= 450 && mouseY >= 370 && mouseY <= 470 && count >= 2500) {
+      count -= 2500;
+      bgOneLocked = false;
+    }
+  }
 
-  // }
+
+  if (gameState === 'Settings') {
+    if (bgOneLocked === false) {
+      if (mouseX >= 130 && mouseX <= 230 && mouseY >= 230 && mouseY <= 430) {
+        gameState = 'space';
+      }
+    }
+  }
+  if(gameState === 'Settings'){
+    if(mouseX >= 25 && mouseX <= 125 && mouseY >= 230 && mouseY <= 430){
+      gameState = 'Game';
+    }
+  }
 }
 
 function shopbutton() {
@@ -336,7 +369,7 @@ function multiButtons() {
 function score() {
   //score count and multiplier counts
   if (activeMulti === false) {
-    count++
+    count += 100000
   }
 
   if (twoTimesMulti === true) {
@@ -365,4 +398,8 @@ function moreBackgrounds() {
   textSize(13);
   text('cost = 2500 spins', 350, 500)
   pop();
+}
+
+function changeBG() {
+
 }

@@ -6,6 +6,7 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 //settings var
 let bgOneLocked = true;
+let audioOn = true;
 
 //more backgrounds and settings icon
 let extraBg;
@@ -32,6 +33,7 @@ let catGif = false;
 let catSound;
 let count = 0;
 let gameState = 'Game';
+let gifTimer = 0;
 
 //gamestate 'store' global var
 let twoTimesMulti = false;
@@ -69,6 +71,12 @@ function setup() {
 
 function draw() {
   //background and all other functions here
+
+  if (catGif && millis() - gifTimer > 1450) {
+    catGif = false;
+    catHere = true;
+  }
+
   if (gameState === 'Game') {
     //if the gamestate is set to game, do these: CATSPIN when clicekd on cat, 
     // click on "STORE" button then go to the shop
@@ -83,7 +91,12 @@ function draw() {
     else if (mouseX >= 500 && mouseX <= 600 && mouseY >= 750 && mouseY <= 800) {
       cursor(HAND);
     }
+    else if (mouseX >= 0 && mouseX <= 50 && mouseY >= 750 && mouseY <= 800) {
+      cursor(HAND);
+    }
     else cursor(ARROW);
+
+    helpWords();
   }
 
 
@@ -101,7 +114,12 @@ function draw() {
     else if (mouseX >= 500 && mouseX <= 600 && mouseY >= 750 && mouseY <= 800) {
       cursor(HAND);
     }
+    else if (mouseX >= 0 && mouseX <= 50 && mouseY >= 750 && mouseY <= 800) {
+      cursor(HAND);
+    }
     else cursor(ARROW);
+
+    helpWords();
   }
 
   //gamestate store
@@ -143,11 +161,14 @@ function draw() {
     if (mouseX >= 540 && mouseX <= 595 && mouseY >= 0 && mouseY <= 50) {
       cursor(HAND);
     }
-    else if(mouseX >= 130 && mouseX <= 230 && mouseY >= 230 && mouseY <= 430){
+    else if (mouseX >= 130 && mouseX <= 230 && mouseY >= 230 && mouseY <= 330) {
       cursor(HAND);
     }
-    else if(mouseX >= 25 && mouseX <= 125 && mouseY >= 230 && mouseY <= 430){
-      cursor(HAND)
+    else if (mouseX >= 25 && mouseX <= 125 && mouseY >= 230 && mouseY <= 330) {
+      cursor(HAND);
+    }
+    else if (mouseX >= 48 && mouseX <= 100 && mouseY >= 400 && mouseY <= 450) {
+      cursor(HAND);
     }
     else cursor(ARROW);
 
@@ -168,6 +189,8 @@ function draw() {
     if (bgOneLocked === true) {
       image(lock, 130, 230, 100, 100)
     }
+
+    audioSetting();
   }
 
   counterText();
@@ -180,7 +203,7 @@ function counterText() {
   text("Spins: " + count, 22, 32)
 }
 
-async function mousePressed() {
+function mousePressed() {
   //mouse pressed functions
 
   //if the gamestate is in game mode then it will let me click the cat and earn spins which is the 
@@ -188,12 +211,12 @@ async function mousePressed() {
   if (gameState === 'Game' || gameState === 'space') {
     if (mouseX >= 50 && mouseX <= 210 && mouseY >= 300 && mouseY <= 420) {
       score();
-      catHere = !catHere;
       catGif = true;
-      catSound.play();
-      await sleep(1450);
-      catGif = false;
-      catHere = true;
+      catHere = false;
+      if (audioOn === true) {
+        catSound.play();
+      }
+      gifTimer = millis();
     }
   }
 
@@ -274,9 +297,20 @@ async function mousePressed() {
       }
     }
   }
-  if(gameState === 'Settings'){
-    if(mouseX >= 25 && mouseX <= 125 && mouseY >= 230 && mouseY <= 430){
+  if (gameState === 'Settings') {
+    if (mouseX >= 25 && mouseX <= 125 && mouseY >= 230 && mouseY <= 330) {
       gameState = 'Game';
+    }
+  }
+
+  if (gameState === 'Settings') {
+    if (mouseX >= 48 && mouseX <= 100 && mouseY >= 400 && mouseY <= 450) {
+      if (audioOn === true) {
+        audioOn = false;
+      }
+      else if (audioOn === false) {
+        audioOn = true;
+      }
     }
   }
 }
@@ -400,6 +434,39 @@ function moreBackgrounds() {
   pop();
 }
 
-function changeBG() {
+function helpWords() {
+  push();
+  fill(0, 0, 0, 200);
+  rect(180, 0, 440, 150)
+  fill("blue");
+  stroke("black");
+  strokeWeight(0.7);
+  textSize(15);
+  text('Welcome to my clicker game!', 180, 20);
+  text('Here are details on the game and how to play:', 180, 35);
+  text('-Click Maxwell to earn spins.', 210, 50);
+  text('-Use those spins in the shop.', 210, 65);
+  text('-The shop contains Upgrades and Misc.', 210, 80);
+  text('-To change the settings click the bottom left hand corner.', 210, 95);
+  text('-The settings contains the backgrounds and audio options.', 210, 110);
+  text('Thanks for playing my game and have fun!', 180, 125);
+  text('Made by Ryder Martin CS30 Scott', 180, 140);
+  pop();
+}
 
+function audioSetting() {
+  push();
+  textSize(30);
+  fill("BLACK");
+  text('Audio Controls (Green for on, red for off)', 25, 375);
+  pop();
+
+  push();
+  if (audioOn === true) {
+    fill('green')
+  }
+  else fill('red');
+
+  circle(75, 425, 50);
+  pop();
 }

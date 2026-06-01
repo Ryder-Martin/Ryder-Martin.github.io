@@ -6,10 +6,12 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 //settings var
 let bgOneLocked = true;
+let bgTwoLocked = true;
 let audioOn = true;
 
 //more backgrounds and settings icon
 let extraBg;
+let extraBg2;
 let settingsIcon;
 
 //Cat images
@@ -32,7 +34,7 @@ let catHere = true;
 let catGif = false;
 let catSound;
 let count = 0;
-let gameState = 'Game';
+let gameState = 'Settings';
 let gifTimer = 0;
 
 //gamestate 'store' global var
@@ -58,9 +60,10 @@ function preload() {
   storeCounter = loadImage('assets/StoreCounter.png');
   shelf = loadImage('assets/shelf.png');
   lock = loadImage('assets/lock.png');
-  scott = loadImage('assets/scott .png');
+  scott = loadImage('assets/SCOTTY.png');
   extraBg = loadImage('assets/space.jpg');
   settingsIcon = loadImage('assets/settingsGear.png');
+  extraBg2 = loadImage('assets/sci-fi.jpg');
 }
 
 function setup() {
@@ -131,6 +134,7 @@ function draw() {
     image(shelf, 300, 200, 300, 150)
     image(shelf, 300, 400, 300, 150)
     image(extraBg, 350, 370, 100, 100);
+    image(extraBg2, 460, 370, 100, 100)
     // image(lock,153,170,253,270)
     multiButtons();
     if (mouseX >= 346 && mouseX <= 446 && mouseY >= 170 && mouseY <= 270) {
@@ -149,6 +153,9 @@ function draw() {
       cursor(HAND);
     }
     else if (mouseX >= 350 && mouseX <= 450 && mouseY >= 370 && mouseY <= 470) {
+      cursor(HAND);
+    }
+    else if (mouseX >= 460 && mouseX <= 560 && mouseY >= 370 && mouseY <= 470) {
       cursor(HAND);
     }
     else cursor(ARROW);
@@ -170,6 +177,9 @@ function draw() {
     else if (mouseX >= 48 && mouseX <= 100 && mouseY >= 400 && mouseY <= 450) {
       cursor(HAND);
     }
+    else if(mouseX >= 240 && mouseX <= 340 && mouseY >= 230 && mouseY <= 330){
+      cursor(HAND);
+    }
     else cursor(ARROW);
 
     push();
@@ -185,12 +195,43 @@ function draw() {
     pop()
 
     image(extraBg, 130, 230, 100, 100);
+    image(extraBg2, 240, 230, 100, 100)
     image(backGround, 20, 230, 100, 100);
     if (bgOneLocked === true) {
       image(lock, 130, 230, 100, 100)
     }
+    if (bgTwoLocked === true) {
+      image(lock, 240, 230, 100, 100)
+    }
 
     audioSetting();
+    push()
+    fill("black");
+    textSize(30);
+    text('The man who made this all possible.', 100, 530)
+    pop()
+    image(scott, 260, 545, 150, 250)
+  }
+
+  else if (gameState === 'Sci-fi') {
+    //if the gamestate is set to space background, do these: CATSPIN when clicked on cat, 
+    image(extraBg2, 0, 0, 600, 800);
+    image(settingsIcon, 0, 750, 50, 50)
+    if (catHere) image(maxwellImage, 50, 300);
+    if (catGif) image(maxwellGif, 50, 300);
+    shopbutton();
+    if (mouseX >= 50 && mouseX <= 210 && mouseY >= 300 && mouseY <= 420) {
+      cursor(HAND);
+    }
+    else if (mouseX >= 500 && mouseX <= 600 && mouseY >= 750 && mouseY <= 800) {
+      cursor(HAND);
+    }
+    else if (mouseX >= 0 && mouseX <= 50 && mouseY >= 750 && mouseY <= 800) {
+      cursor(HAND);
+    }
+    else cursor(ARROW);
+
+    helpWords();
   }
 
   counterText();
@@ -208,7 +249,7 @@ function mousePressed() {
 
   //if the gamestate is in game mode then it will let me click the cat and earn spins which is the 
   //currency of this game
-  if (gameState === 'Game' || gameState === 'space') {
+  if (gameState === 'Game' || gameState === 'space' || gameState === 'Sci-fi') {
     if (mouseX >= 50 && mouseX <= 210 && mouseY >= 300 && mouseY <= 420) {
       score();
       catGif = true;
@@ -289,6 +330,13 @@ function mousePressed() {
     }
   }
 
+  if (gameState === 'Store') {
+    if (mouseX >= 460 && mouseX <= 560 && mouseY >= 370 && mouseY <= 470) {
+      count -= 2500;
+      bgTwoLocked = false;
+    }
+  }
+
 
   if (gameState === 'Settings') {
     if (bgOneLocked === false) {
@@ -313,6 +361,12 @@ function mousePressed() {
       }
     }
   }
+  if (gameState === 'Settings') {
+    if (mouseX >= 240 && mouseX <= 340 && mouseY >= 230 && mouseY <= 330) {
+      gameState = 'Sci-fi';
+    }
+  }
+
 }
 
 function shopbutton() {
@@ -431,6 +485,12 @@ function moreBackgrounds() {
   fill('green');
   textSize(13);
   text('cost = 2500 spins', 350, 500)
+  pop();
+
+  push();
+  fill('green');
+  textSize(13);
+  text('cost = 2500 spins', 460, 500)
   pop();
 }
 

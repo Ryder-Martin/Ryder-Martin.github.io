@@ -36,6 +36,8 @@ let catSound;
 let count = 0;
 let gameState = 'Settings';
 let gifTimer = 0;
+let vikingMusic;
+let vikingMusicOn = false;
 
 //gamestate 'store' global var
 let twoTimesMulti = false;
@@ -64,6 +66,7 @@ function preload() {
   extraBg = loadImage('assets/space.jpg');
   settingsIcon = loadImage('assets/settingsGear.png');
   extraBg2 = loadImage('assets/sci-fi.jpg');
+  vikingMusic = loadSound('assets/Viking.mp3');
 }
 
 function setup() {
@@ -79,14 +82,18 @@ function draw() {
     catGif = false;
     catHere = true;
   }
-
+  //gamestate game
   if (gameState === 'Game') {
     //if the gamestate is set to game, do these: CATSPIN when clicekd on cat, 
     // click on "STORE" button then go to the shop
     image(backGround, 0, 0, 600, 800);
-    image(settingsIcon, 0, 750, 50, 50)
-    if (catHere) image(maxwellImage, 50, 300);
-    if (catGif) image(maxwellGif, 50, 300);
+    image(settingsIcon, 0, 750, 50, 50);
+    if (catHere) {
+      image(maxwellImage, 50, 300);
+    }
+    if (catGif) {
+      image(maxwellGif, 50, 300);
+    }
     shopbutton();
     if (mouseX >= 50 && mouseX <= 210 && mouseY >= 300 && mouseY <= 420) {
       cursor(HAND);
@@ -97,32 +104,67 @@ function draw() {
     else if (mouseX >= 0 && mouseX <= 50 && mouseY >= 750 && mouseY <= 800) {
       cursor(HAND);
     }
-    else cursor(ARROW);
+    else {
+      cursor(ARROW);
+    }
 
     helpWords();
   }
 
+  //gamestate settings
+  else if (gameState === 'Settings') {
+    background('darkgrey');
+    exitShop();
+    if (mouseX >= 540 && mouseX <= 595 && mouseY >= 0 && mouseY <= 50) {
+      cursor(HAND);
+    }
+    else if (mouseX >= 130 && mouseX <= 230 && mouseY >= 230 && mouseY <= 330) {
+      cursor(HAND);
+    }
+    else if (mouseX >= 25 && mouseX <= 125 && mouseY >= 230 && mouseY <= 330) {
+      cursor(HAND);
+    }
+    else if (mouseX >= 48 && mouseX <= 100 && mouseY >= 400 && mouseY <= 450) {
+      cursor(HAND);
+    }
+    else if (mouseX >= 240 && mouseX <= 340 && mouseY >= 230 && mouseY <= 330) {
+      cursor(HAND);
+    }
+    else {
+      cursor(ARROW);
+    }
+    //text for the settings
+    push();
+    textSize(50);
+    fill("Black");
+    text('SETTINGS', 160, 100);
+    pop();
 
-  //gamestate space
-  else if (gameState === 'space') {
-    //if the gamestate is set to space background, do these: CATSPIN when clicked on cat, 
-    image(extraBg, 0, 0, 600, 800);
-    image(settingsIcon, 0, 750, 50, 50)
-    if (catHere) image(maxwellImage, 50, 300);
-    if (catGif) image(maxwellGif, 50, 300);
-    shopbutton();
-    if (mouseX >= 50 && mouseX <= 210 && mouseY >= 300 && mouseY <= 420) {
-      cursor(HAND);
+    push();
+    textSize(30);
+    fill("BLACK");
+    text('Backgrounds', 25, 200);
+    pop();
+   
+    push();
+    fill("black");
+    textSize(30);
+    text('The man who made this all possible.', 100, 530);
+    pop();
+    //images for the settings
+    image(scott, 260, 545, 150, 250);
+    image(extraBg, 130, 230, 100, 100);
+    image(extraBg2, 240, 230, 100, 100);
+    image(backGround, 20, 230, 100, 100);
+    if (bgOneLocked === true) {
+      image(lock, 130, 230, 100, 100);
     }
-    else if (mouseX >= 500 && mouseX <= 600 && mouseY >= 750 && mouseY <= 800) {
-      cursor(HAND);
+    if (bgTwoLocked === true) {
+      image(lock, 240, 230, 100, 100);
     }
-    else if (mouseX >= 0 && mouseX <= 50 && mouseY >= 750 && mouseY <= 800) {
-      cursor(HAND);
-    }
-    else cursor(ARROW);
 
-    helpWords();
+    audioSetting();
+    vikingOn();
   }
 
   //gamestate store
@@ -130,11 +172,11 @@ function draw() {
     background("white");
     image(storeCounter, 0, 400, 300, 400);
     exitShop();
-    image(shelf, 0, 200, 300, 150)
-    image(shelf, 300, 200, 300, 150)
-    image(shelf, 300, 400, 300, 150)
+    image(shelf, 0, 200, 300, 150);
+    image(shelf, 300, 200, 300, 150);
+    image(shelf, 300, 400, 300, 150);
     image(extraBg, 350, 370, 100, 100);
-    image(extraBg2, 460, 370, 100, 100)
+    image(extraBg2, 460, 370, 100, 100);
     // image(lock,153,170,253,270)
     multiButtons();
     if (mouseX >= 346 && mouseX <= 446 && mouseY >= 170 && mouseY <= 270) {
@@ -158,67 +200,23 @@ function draw() {
     else if (mouseX >= 460 && mouseX <= 560 && mouseY >= 370 && mouseY <= 470) {
       cursor(HAND);
     }
-    else cursor(ARROW);
+    else {
+      cursor(ARROW);
+    }
     moreBackgrounds();
   }
 
-  else if (gameState === 'Settings') {
-    background('darkgrey')
-    exitShop()
-    if (mouseX >= 540 && mouseX <= 595 && mouseY >= 0 && mouseY <= 50) {
-      cursor(HAND);
-    }
-    else if (mouseX >= 130 && mouseX <= 230 && mouseY >= 230 && mouseY <= 330) {
-      cursor(HAND);
-    }
-    else if (mouseX >= 25 && mouseX <= 125 && mouseY >= 230 && mouseY <= 330) {
-      cursor(HAND);
-    }
-    else if (mouseX >= 48 && mouseX <= 100 && mouseY >= 400 && mouseY <= 450) {
-      cursor(HAND);
-    }
-    else if(mouseX >= 240 && mouseX <= 340 && mouseY >= 230 && mouseY <= 330){
-      cursor(HAND);
-    }
-    else cursor(ARROW);
-
-    push();
-    textSize(50);
-    fill("Black");
-    text('SETTINGS', 160, 100);
-    pop();
-
-    push()
-    textSize(30);
-    fill("BLACK");
-    text('Backgrounds', 25, 200);
-    pop()
-
-    image(extraBg, 130, 230, 100, 100);
-    image(extraBg2, 240, 230, 100, 100)
-    image(backGround, 20, 230, 100, 100);
-    if (bgOneLocked === true) {
-      image(lock, 130, 230, 100, 100)
-    }
-    if (bgTwoLocked === true) {
-      image(lock, 240, 230, 100, 100)
-    }
-
-    audioSetting();
-    push()
-    fill("black");
-    textSize(30);
-    text('The man who made this all possible.', 100, 530)
-    pop()
-    image(scott, 260, 545, 150, 250)
-  }
-
-  else if (gameState === 'Sci-fi') {
+  //gamestate space
+  else if (gameState === 'space') {
     //if the gamestate is set to space background, do these: CATSPIN when clicked on cat, 
-    image(extraBg2, 0, 0, 600, 800);
-    image(settingsIcon, 0, 750, 50, 50)
-    if (catHere) image(maxwellImage, 50, 300);
-    if (catGif) image(maxwellGif, 50, 300);
+    image(extraBg, 0, 0, 600, 800);
+    image(settingsIcon, 0, 750, 50, 50);
+    if (catHere) {
+      image(maxwellImage, 50, 300);
+    }
+    if (catGif) {
+      image(maxwellGif, 50, 300);
+    }
     shopbutton();
     if (mouseX >= 50 && mouseX <= 210 && mouseY >= 300 && mouseY <= 420) {
       cursor(HAND);
@@ -229,7 +227,35 @@ function draw() {
     else if (mouseX >= 0 && mouseX <= 50 && mouseY >= 750 && mouseY <= 800) {
       cursor(HAND);
     }
-    else cursor(ARROW);
+    else {
+      cursor(ARROW);
+    }
+    helpWords();
+  }
+
+  else if (gameState === 'Sci-fi') {
+    //if the gamestate is set to space background, do these: CATSPIN when clicked on cat, 
+    image(extraBg2, 0, 0, 600, 800);
+    image(settingsIcon, 0, 750, 50, 50);
+    if (catHere) {
+      image(maxwellImage, 50, 300);
+    }
+    if (catGif) {
+      image(maxwellGif, 50, 300);
+    }
+    shopbutton();
+    if (mouseX >= 50 && mouseX <= 210 && mouseY >= 300 && mouseY <= 420) {
+      cursor(HAND);
+    }
+    else if (mouseX >= 500 && mouseX <= 600 && mouseY >= 750 && mouseY <= 800) {
+      cursor(HAND);
+    }
+    else if (mouseX >= 0 && mouseX <= 50 && mouseY >= 750 && mouseY <= 800) {
+      cursor(HAND);
+    }
+    else {
+      cursor(ARROW);
+    }
 
     helpWords();
   }
@@ -241,7 +267,7 @@ function counterText() {
   //the text for the counter/spins/currency
   textSize(32);
   fill('#C09642');
-  text("Spins: " + count, 22, 32)
+  text("Spins: " + count, 22, 32);
 }
 
 function mousePressed() {
@@ -262,18 +288,18 @@ function mousePressed() {
   }
 
   if (mouseX >= 0 && mouseX <= 50 && mouseY >= 750 && mouseY <= 800) {
-    gameState = 'Settings'
+    gameState = 'Settings';
   }
 
   //if i click the shop button it will then play the store function which will
   //swtich the gamestate into shop mode which will let your buy multipliers
   if (mouseX >= 500 && mouseX <= 600 && mouseY >= 750 && mouseY <= 800) {
-    gameState = 'Store'
+    gameState = 'Store';
   }
   // if the red circle with the x in it is clicked then go back to the game
   if (gameState === 'Store' || gameState === 'Settings') {
     if (mouseX >= 540 && mouseX <= 595 && mouseY >= 0 && mouseY <= 50) {
-      gameState = 'Game'
+      gameState = 'Game';
     }
   }
 
@@ -367,6 +393,18 @@ function mousePressed() {
     }
   }
 
+  if(gameState === 'Settings'){
+    if(mouseX >= 5 && mouseX <= 25 && mouseY >= 770 && mouseY <= 800){
+      if(vikingMusicOn === true){
+        vikingMusic.pause();
+        vikingMusicOn = false;
+      }
+      else{
+        vikingMusic.play();
+        vikingMusicOn = true;
+      }
+    }
+  }
 }
 
 function shopbutton() {
@@ -375,17 +413,17 @@ function shopbutton() {
   fill("White");
   rect(500, 750, 100, 50);
   textSize(25);
-  fill("black")
-  text('STORE', 508, 783)
+  fill("black");
+  text('STORE', 508, 783);
   pop();
 }
 
 function exitShop() {
   //this is the code for the exit shop button
   push();
-  fill("red")
-  circle(570, 25, 50)
-  fill("black")
+  fill("red");
+  circle(570, 25, 50);
+  fill("black");
   textSize(45);
   text('X', 555.5, 40);
   pop();
@@ -393,71 +431,71 @@ function exitShop() {
 
 function multiButtons() {
   //2x multiplier shop button
-  push()
+  push();
   fill("lightgrey");
   rect(45, 170, 100, 100);
   fill("black");
   textSize(50);
-  text('2X', 64, 240)
+  text('2X', 64, 240);
   textSize(13);
   fill("green");
   text('cost = 100 spins', 45, 300);
   if (isLocked2 === true) {
-    image(lock, 55, 170, 100, 100)
+    image(lock, 55, 170, 100, 100);
   }
-  pop()
+  pop();
 
   //4x multiplier shop button
-  push()
+  push();
   fill("lightgrey");
   rect(155, 170, 100, 100);
   fill("black");
   textSize(50);
-  text('4X', 173, 240)
+  text('4X', 173, 240);
   textSize(13);
   fill("green");
   text('cost = 1000 spins', 155, 300);
   if (isLocked4 === true) {
-    image(lock, 155, 170, 100, 100)
+    image(lock, 155, 170, 100, 100);
   }
 
-  pop()
+  pop();
 
   //6x multiplier shop button
-  push()
+  push();
   fill("lightgrey");
   rect(346, 170, 100, 100);
   fill("black");
   textSize(50);
-  text('6X', 366, 240)
+  text('6X', 366, 240);
   textSize(13);
   fill("green");
   text('cost = 5000 spins', 346, 300);
   if (isLocked6 === true) {
-    image(lock, 346, 170, 100, 100)
+    image(lock, 346, 170, 100, 100);
   }
-  pop()
+  pop();
 
   //8x multiplier shop button
-  push()
+  push();
   fill("lightgrey");
   rect(455, 170, 100, 100);
   fill("black");
   textSize(50);
-  text('8X', 474, 240)
+  text('8X', 474, 240);
   textSize(13);
   fill("green");
   text('cost = 50000 spins', 455, 300);
   if (isLocked8 === true) {
-    image(lock, 455, 170, 100, 100)
+    image(lock, 455, 170, 100, 100);
   }
-  pop()
+  pop();
 }
 
 function score() {
   //score count and multiplier counts
   if (activeMulti === false) {
-    count += 100000
+    count += 100000;
   }
 
   if (twoTimesMulti === true) {
@@ -484,20 +522,20 @@ function moreBackgrounds() {
   push();
   fill('green');
   textSize(13);
-  text('cost = 2500 spins', 350, 500)
+  text('cost = 2500 spins', 350, 500);
   pop();
 
   push();
   fill('green');
   textSize(13);
-  text('cost = 2500 spins', 460, 500)
+  text('cost = 2500 spins', 460, 500);
   pop();
 }
 
 function helpWords() {
   push();
   fill(0, 0, 0, 200);
-  rect(180, 0, 440, 150)
+  rect(180, 0, 440, 150);
   fill("blue");
   stroke("black");
   strokeWeight(0.7);
@@ -523,10 +561,45 @@ function audioSetting() {
 
   push();
   if (audioOn === true) {
-    fill('green')
+    fill('green');
   }
-  else fill('red');
+  else {
+    fill('red');
+  }
 
   circle(75, 425, 50);
   pop();
+}
+
+function vikingOn() {
+
+  push();
+  fill('black');
+  textSize(10);
+  text('TURN ON VIKING MODE', 30,788);
+  pop();
+
+  if(vikingMusicOn === true){
+    push();
+    fill('green');
+    circle(15, 785, 20);
+    pop();
+  }
+  else{
+    push();
+    fill('red');
+    circle(15, 785, 20);
+    pop();
+  }
+  
+  if(mouseX >= 5 && mouseX <= 25 && mouseY >= 770 && mouseY <= 800){
+    cursor(HAND);
+  }
+  else{
+    cursor(ARROW);
+  }
+}
+
+function classicMusic(){
+  
 }

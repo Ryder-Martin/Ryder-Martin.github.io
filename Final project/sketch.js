@@ -15,8 +15,6 @@ let extraBg2;
 let settingsIcon;
 
 //Cat images
-let mexCatImg;
-let mexCatGif;
 let maxwellImage;
 let maxwellGif;
 
@@ -34,10 +32,12 @@ let catHere = true;
 let catGif = false;
 let catSound;
 let count = 0;
-let gameState = 'Settings';
+let gameState = 'Game';
 let gifTimer = 0;
 let vikingMusic;
 let vikingMusicOn = false;
+let classicMusic;
+let classicMusicOn = false;
 
 //gamestate 'store' global var
 let twoTimesMulti = false;
@@ -57,8 +57,6 @@ function preload() {
   maxwellGif = loadImage('assets/maxwell.gif');
   catSound = loadSound('assets/Maxwell_oiia.mp3');
   backGround = loadImage('assets/Lofibackground.png');
-  mexCatImg = loadImage('assets/MexMaxImg.png');
-  mexCatGif = loadImage('assets/MexMaxGif.gif');
   storeCounter = loadImage('assets/StoreCounter.png');
   shelf = loadImage('assets/shelf.png');
   lock = loadImage('assets/lock.png');
@@ -67,12 +65,12 @@ function preload() {
   settingsIcon = loadImage('assets/settingsGear.png');
   extraBg2 = loadImage('assets/sci-fi.jpg');
   vikingMusic = loadSound('assets/Viking.mp3');
+  classicMusic = loadSound('assets/ScottMusic.mp3');
 }
 
 function setup() {
   createCanvas(600, 800);
   maxwellGif.delay(1);
-  mexCatGif.delay(8);
 }
 
 function draw() {
@@ -130,9 +128,13 @@ function draw() {
     else if (mouseX >= 240 && mouseX <= 340 && mouseY >= 230 && mouseY <= 330) {
       cursor(HAND);
     }
-    else {
-      cursor(ARROW);
+    else if(mouseX >= 260 && mouseX <= 410 && mouseY >= 545 && mouseY <= 795){
+      cursor(HAND);
     }
+    else if (mouseX >= 5 && mouseX <= 20 && mouseY >= 5 && mouseY <= 20) {
+      cursor(HAND);
+    }
+    else {cursor(ARROW);}
     //text for the settings
     push();
     textSize(50);
@@ -145,7 +147,7 @@ function draw() {
     fill("BLACK");
     text('Backgrounds', 25, 200);
     pop();
-   
+
     push();
     fill("black");
     textSize(30);
@@ -230,6 +232,7 @@ function draw() {
     else {
       cursor(ARROW);
     }
+
     helpWords();
   }
 
@@ -315,7 +318,7 @@ function mousePressed() {
     }
   }
 
-
+  //shop multiplier buttons.
   if (gameState === 'Store') {
     if (isLocked4 === false) {
       if (mouseX >= 153 && mouseX <= 253 && mouseY >= 170 && mouseY <= 270 && count >= 1000) {
@@ -327,6 +330,7 @@ function mousePressed() {
     }
   }
 
+  //shop multiplier buttons.
   if (gameState === 'Store') {
     if (isLocked6 === false) {
       if (mouseX >= 346 && mouseX <= 446 && mouseY >= 170 && mouseY <= 270 && count >= 5000) {
@@ -338,6 +342,7 @@ function mousePressed() {
     }
   }
 
+  //shop multiplier buttons.
   if (gameState === 'Store') {
     if (isLocked8 === false) {
       if (mouseX >= 455 && mouseX <= 555 && mouseY >= 170 && mouseY <= 270 && count >= 50000) {
@@ -349,6 +354,7 @@ function mousePressed() {
     }
   }
 
+  //first extra background unlock
   if (gameState === 'Store') {
     if (mouseX >= 350 && mouseX <= 450 && mouseY >= 370 && mouseY <= 470 && count >= 2500) {
       count -= 2500;
@@ -356,6 +362,7 @@ function mousePressed() {
     }
   }
 
+  //second extra background unlock
   if (gameState === 'Store') {
     if (mouseX >= 460 && mouseX <= 560 && mouseY >= 370 && mouseY <= 470) {
       count -= 2500;
@@ -363,7 +370,7 @@ function mousePressed() {
     }
   }
 
-
+  //switch the background to
   if (gameState === 'Settings') {
     if (bgOneLocked === false) {
       if (mouseX >= 130 && mouseX <= 230 && mouseY >= 230 && mouseY <= 430) {
@@ -371,6 +378,8 @@ function mousePressed() {
       }
     }
   }
+
+  // switch gamestate back to the game
   if (gameState === 'Settings') {
     if (mouseX >= 25 && mouseX <= 125 && mouseY >= 230 && mouseY <= 330) {
       gameState = 'Game';
@@ -393,18 +402,31 @@ function mousePressed() {
     }
   }
 
-  if(gameState === 'Settings'){
-    if(mouseX >= 5 && mouseX <= 25 && mouseY >= 770 && mouseY <= 800){
-      if(vikingMusicOn === true){
+  if (gameState === 'Settings') {
+    if (mouseX >= 5 && mouseX <= 20 && mouseY >= 5 && mouseY <= 20) {
+      if (vikingMusicOn === true) {
         vikingMusic.pause();
         vikingMusicOn = false;
       }
-      else{
+      else {
         vikingMusic.play();
         vikingMusicOn = true;
       }
     }
   }
+  if (gameState === 'Settings') {
+    if (mouseX >= 260 && mouseX <= 410 && mouseY >= 545 && mouseY <= 795) {
+      if (classicMusicOn === true) {
+        classicMusic.pause();
+        classicMusicOn = false;
+      }
+      else {
+        classicMusic.play();
+        classicMusicOn = true;
+      }
+    }
+  }
+
 }
 
 function shopbutton() {
@@ -495,7 +517,7 @@ function multiButtons() {
 function score() {
   //score count and multiplier counts
   if (activeMulti === false) {
-    count += 100000;
+    count += 1;
   }
 
   if (twoTimesMulti === true) {
@@ -519,6 +541,7 @@ function score() {
 }
 
 function moreBackgrounds() {
+  //code that just shows how much the extra backgrounds cost
   push();
   fill('green');
   textSize(13);
@@ -533,6 +556,7 @@ function moreBackgrounds() {
 }
 
 function helpWords() {
+  // just the code for the words on the game page that tells you how to play
   push();
   fill(0, 0, 0, 200);
   rect(180, 0, 440, 150);
@@ -553,6 +577,8 @@ function helpWords() {
 }
 
 function audioSetting() {
+  // audio setting function for the sound that plays when you click that cat
+  //if circle green the sound is active and red means inactive
   push();
   textSize(30);
   fill("BLACK");
@@ -572,34 +598,18 @@ function audioSetting() {
 }
 
 function vikingOn() {
-
-  push();
-  fill('black');
-  textSize(10);
-  text('TURN ON VIKING MODE', 30,788);
-  pop();
-
-  if(vikingMusicOn === true){
+  //the code for the somewhat hidden viking mode
+  //if viking music is on then the circle is green and when it is paused its red
+  if (vikingMusicOn === true) {
     push();
     fill('green');
-    circle(15, 785, 20);
+    circle(15, 15, 10);
     pop();
   }
-  else{
+  else {
     push();
     fill('red');
-    circle(15, 785, 20);
+    circle(15, 15, 10);
     pop();
   }
-  
-  if(mouseX >= 5 && mouseX <= 25 && mouseY >= 770 && mouseY <= 800){
-    cursor(HAND);
-  }
-  else{
-    cursor(ARROW);
-  }
-}
-
-function classicMusic(){
-  
 }

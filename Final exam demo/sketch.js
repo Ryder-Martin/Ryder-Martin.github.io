@@ -1,0 +1,26 @@
+// Final exam demo
+// Ryder Martin
+// 6/10/2026
+
+let gorrilaIdle =[];
+let gorrilaSwipe = [];
+let spiralImages = [];
+
+let spirals = [];
+
+async function setup() {
+  createCanvas(windowWidth, windowHeight);
+
+  for(let i = 0; i < 16; i++){
+    if(i<10){
+      spiralImages.push(await loadImage('assets/Circle/circle0'+i+'.png'));
+    }
+    else{
+      spiralImages.push(await loadImage("assets/Circle/circle"+i+".png"));
+    }
+  }
+}
+
+function draw() {
+  background(220);
+}

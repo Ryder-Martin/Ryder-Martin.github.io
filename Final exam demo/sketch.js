@@ -2,9 +2,13 @@
 // Ryder Martin
 // 6/10/2026
 
-let gorrilaIdle =[];
-let gorrilaSwipe = [];
+let gorilaIdle =[];
+let gorilaSwipe = [];
 let spiralImages = [];
+
+//Gorilla
+let gorilaState = 0;//0-idle 1 - swipe
+
 
 let spirals = [];
 
@@ -19,6 +23,7 @@ async function setup() {
       spiralImages.push(await loadImage("assets/Circle/circle"+i+".png"));
     }
   }
+
 }
 
 function draw() {

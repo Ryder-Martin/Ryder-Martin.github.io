@@ -46,13 +46,14 @@ let sixTimesMulti = false;
 let eightTimesMulti = false;
 let clickValue = 1;
 let activeMulti = false;
+let isLocked2 = false;
 let isLocked4 = true;
 let isLocked6 = true;
 let isLocked8 = true;
-let isLocked2 = false;
 
 
 function preload() {
+  //images and sounds preload
   maxwellImage = loadImage('assets/maxwell1.png');
   maxwellGif = loadImage('assets/maxwell.gif');
   catSound = loadSound('assets/Maxwell_oiia.mp3');
@@ -69,6 +70,7 @@ function preload() {
 }
 
 function setup() {
+  //setup only has the canvas and the delay for the gif of maxwell
   createCanvas(600, 800);
   maxwellGif.delay(1);
 }
@@ -111,6 +113,9 @@ function draw() {
 
   //gamestate settings
   else if (gameState === 'Settings') {
+    // the settings with 2 hidden secrets inside it one more obovious than the other,
+    //these are when you click the picture of scott and when you click the button
+    //on the upper left hand corner of the settings next to the spin counter
     background('darkgrey');
     exitShop();
     if (mouseX >= 540 && mouseX <= 595 && mouseY >= 0 && mouseY <= 50) {
@@ -171,6 +176,8 @@ function draw() {
 
   //gamestate store
   else if (gameState === "Store") {
+    //code for the store which includes:
+      //2 EXTRA BACKGROUNDS, multipliers that stack,a counter and some shelves
     background("white");
     image(storeCounter, 0, 400, 300, 400);
     exitShop();
@@ -237,7 +244,7 @@ function draw() {
   }
 
   else if (gameState === 'Sci-fi') {
-    //if the gamestate is set to space background, do these: CATSPIN when clicked on cat, 
+    //if the gamestate is set to sci-fi background, do these: CATSPIN when clicked on cat, 
     image(extraBg2, 0, 0, 600, 800);
     image(settingsIcon, 0, 750, 50, 50);
     if (catHere) {
@@ -309,22 +316,11 @@ function mousePressed() {
   //shop multiplier buttons.
   if (gameState === 'Store') {
     if (isLocked2 === false) {
-      if (mouseX >= 43 && mouseX <= 145 && mouseY >= 170 && mouseY <= 270 && count >= 100) {
-        count -= 100;
+      if (mouseX >= 43 && mouseX <= 145 && mouseY >= 170 && mouseY <= 270 && count >= 25) {
+        count -= 25;
         twoTimesMulti = true;
         activeMulti = true;
         isLocked4 = false;
-      }
-    }
-  }
-
-  //shop multiplier buttons.
-  if (gameState === 'Store') {
-    if (isLocked4 === false) {
-      if (mouseX >= 153 && mouseX <= 253 && mouseY >= 170 && mouseY <= 270 && count >= 1000) {
-        count -= 1000;
-        fourTimesMulti = true;
-        isLocked6 = false;
         isLocked2 = true;
       }
     }
@@ -332,11 +328,11 @@ function mousePressed() {
 
   //shop multiplier buttons.
   if (gameState === 'Store') {
-    if (isLocked6 === false) {
-      if (mouseX >= 346 && mouseX <= 446 && mouseY >= 170 && mouseY <= 270 && count >= 5000) {
-        count -= 5000;
-        sixTimesMulti = true;
-        isLocked8 = false;
+    if (isLocked4 === false) {
+      if (mouseX >= 153 && mouseX <= 253 && mouseY >= 170 && mouseY <= 270 && count >= 250) {
+        count -= 250;
+        fourTimesMulti = true;
+        isLocked6 = false;
         isLocked4 = true;
       }
     }
@@ -344,11 +340,22 @@ function mousePressed() {
 
   //shop multiplier buttons.
   if (gameState === 'Store') {
-    if (isLocked8 === false) {
-      if (mouseX >= 455 && mouseX <= 555 && mouseY >= 170 && mouseY <= 270 && count >= 50000) {
-        count -= 50000;
-        eightTimesMulti = true;
+    if (isLocked6 === false) {
+      if (mouseX >= 346 && mouseX <= 446 && mouseY >= 170 && mouseY <= 270 && count >= 1000) {
+        count -= 1000;
+        sixTimesMulti = true;
+        isLocked8 = false;
         isLocked6 = true;
+      }
+    }
+  }
+
+  //shop multiplier buttons.
+  if (gameState === 'Store') {
+    if (isLocked8 === false) {
+      if (mouseX >= 455 && mouseX <= 555 && mouseY >= 170 && mouseY <= 270 && count >= 10000) {
+        count -= 10000;
+        eightTimesMulti = true;
         isLocked8 = true;
       }
     }
@@ -386,6 +393,7 @@ function mousePressed() {
     }
   }
 
+  //turns on or off the sound of when you click the cat
   if (gameState === 'Settings') {
     if (mouseX >= 48 && mouseX <= 100 && mouseY >= 400 && mouseY <= 450) {
       if (audioOn === true) {
@@ -396,12 +404,15 @@ function mousePressed() {
       }
     }
   }
+
+  //after you buy the sci-fi background you can use it when click the sci-fi picture in the settings
   if (gameState === 'Settings') {
     if (mouseX >= 240 && mouseX <= 340 && mouseY >= 230 && mouseY <= 330) {
       gameState = 'Sci-fi';
     }
   }
 
+  //to play and pause the music when you click the tiny dot in the top left hand corner of the settings next to the spins
   if (gameState === 'Settings') {
     if (mouseX >= 5 && mouseX <= 20 && mouseY >= 5 && mouseY <= 20) {
       if (vikingMusicOn === true) {
@@ -411,9 +422,12 @@ function mousePressed() {
       else {
         vikingMusic.play();
         vikingMusicOn = true;
+        vikingMusic.setVolume(0.5)
       }
     }
   }
+
+  //settings to turn on the classical music when you click the picture of scott while in the settings
   if (gameState === 'Settings') {
     if (mouseX >= 260 && mouseX <= 410 && mouseY >= 545 && mouseY <= 795) {
       if (classicMusicOn === true) {
@@ -461,7 +475,7 @@ function multiButtons() {
   text('2X', 64, 240);
   textSize(13);
   fill("green");
-  text('cost = 100 spins', 45, 300);
+  text('cost = 25 spins', 45, 300);
   if (isLocked2 === true) {
     image(lock, 55, 170, 100, 100);
   }
@@ -476,7 +490,7 @@ function multiButtons() {
   text('4X', 173, 240);
   textSize(13);
   fill("green");
-  text('cost = 1000 spins', 155, 300);
+  text('cost = 250 spins', 155, 300);
   if (isLocked4 === true) {
     image(lock, 155, 170, 100, 100);
   }
@@ -492,7 +506,7 @@ function multiButtons() {
   text('6X', 366, 240);
   textSize(13);
   fill("green");
-  text('cost = 5000 spins', 346, 300);
+  text('cost = 1000 spins', 346, 300);
   if (isLocked6 === true) {
     image(lock, 346, 170, 100, 100);
   }
@@ -507,7 +521,7 @@ function multiButtons() {
   text('8X', 474, 240);
   textSize(13);
   fill("green");
-  text('cost = 50000 spins', 455, 300);
+  text('cost = 10000 spins', 455, 300);
   if (isLocked8 === true) {
     image(lock, 455, 170, 100, 100);
   }
